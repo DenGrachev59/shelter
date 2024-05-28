@@ -1,0 +1,62 @@
+{% extends 'dogs/base.html'%}
+
+{% load my_tags %}
+
+{% block content%}
+    <div class="row">
+        <div class="col-12">
+            {% if perms.dogs.add_dog %}
+            <a type="button" class="btn btn-sm btn-outline-success mb-5" href="{% url 'dogs:dog_create' category_pk %}">Создать карточку собаки</a>
+            {% endif %}
+        </div>
+        {% for object in object_list %}
+            <div class="col-md-4">
+              <div class="card mb-4 box-shadow">
+<!--                <img class="card-img-top" src="/media/{{object.photo}}" alt="Card image cap">-->
+                <img class="card-img-top" src="{{object.photo | mymedia }}" alt="Card image cap">
+              <div class="card-header">
+                  <h4>Кличка: {{object.name| title}}</h4>
+              </div>
+
+                <div class="card-body">
+                  <p class="card-text">
+                      {% if object %}
+                        Дата рождения: {{object.birth_day| title}}
+                        {% else %}
+                            <span class="text-muted">Нет данных о дате рождения</span>
+                        {% endif %}
+                      <br>
+                      </p>
+                    <span class="text-muted">
+                      {% if object %}
+                        Хозяин : {{object.owner|  default:"Нет данных о хозяине"}}
+                        {% else %}
+                            <span class="text-muted">Нет данных о хозяине</span>
+                        {% endif %}
+                      <br>
+                      </span>
+
+<!--                  <span class="text-muted">{{ object.birth_day|default:"-" }}</span><br>-->
+                </div>
+
+                <div class="card-footer">
+                    {% if perms.dogs.change_dog %}
+                    <a href="{% url 'dogs:dog_update' object.pk %}" type="button" class="btn btn-sm btn-outline-secondary">Изменить</a>
+                    {% endif %}
+                    {% if perms.dogs.delete_dog %}
+                    <a href="{% url 'dogs:dog_delete' object.pk %}" type="button" class="btn btn-sm btn-outline-danger">Удалить</a>
+                    {% endif %}
+<!--                  <div class="d-flex justify-content-between align-items-center">-->
+<!--                    <div class="btn-group">-->
+<!--&lt;!&ndash;                      <button type="button" class="btn btn-sm btn-outline-secondary">К собакам</button>&ndash;&gt;-->
+<!--&lt;!&ndash;                      <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>&ndash;&gt;-->
+<!--                    </div>-->
+<!--&lt;!&ndash;                    <small class="text-muted">9 mins</small>&ndash;&gt;-->
+<!--                  </div>-->
+                </div>
+              </div>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

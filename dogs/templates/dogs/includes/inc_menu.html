@@ -1,0 +1,15 @@
+<nav>
+ <a href="{% url 'dogs:index' %}" class="text-blue">Главная</a> |
+ <a href="{% url 'dogs:categories' %}" class="text-blue">Все собаки</a> |
+
+    {% if user.is_authenticated  %}
+
+
+                  <a href="{% url 'users:profile' %}" class="text-blue">Профиль</a> |
+                   <a href="{% url 'users:logout' %}" class="text-blue">Выйти</a>
+                {% else %}
+                  <a href="{% url 'users:login' %}" class="text-blue">Войти</a> |
+                  <a href="{% url 'users:register' %}" class="text-blue">Регистрация</a>
+
+     {% endif %}
+</nav>
